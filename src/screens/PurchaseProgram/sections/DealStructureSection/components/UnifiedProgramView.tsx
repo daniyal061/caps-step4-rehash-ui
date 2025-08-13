@@ -148,22 +148,6 @@ export const UnifiedProgramView = ({
 
     const currentProgram = activeProgram === "purchase" ? dynamicData.purchaseProgram : dynamicData.portfolioProgram;
 
-    // Get the selected GAP vendor name for display
-    const getSelectedGAPVendorName = () => {
-        const selectedVendor = dynamicData.gapData.availableVendors.find(
-            vendor => vendor.code === dynamicData.gapData.selectedVendor
-        );
-        return selectedVendor ? selectedVendor.name : '';
-    };
-
-    // Get the selected VSC vendor name for display
-    const getSelectedVSCVendorName = () => {
-        const selectedVendor = dynamicData.vscData.availableVendors.find(
-            vendor => vendor.value === dynamicData.vscData.selectedVendor
-        );
-        return selectedVendor ? selectedVendor.label : '';
-    };
-
     return (
         <div className="flex flex-col w-full max-w-[850px] gap-6">
             {/* Alerts Section */}
@@ -412,9 +396,7 @@ export const UnifiedProgramView = ({
                                         onValueChange={handleVSCVendorChange}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select vendor">
-                                                {getSelectedVSCVendorName() || "Select vendor"}
-                                            </SelectValue>
+                                            <SelectValue placeholder="Select vendor" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {dynamicData.vscData.availableVendors.map((vendor) => (
@@ -469,9 +451,7 @@ export const UnifiedProgramView = ({
                                         onValueChange={handleGAPVendorChange}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select vendor">
-                                                {getSelectedGAPVendorName() || "Select vendor"}
-                                            </SelectValue>
+                                            <SelectValue placeholder="Select vendor" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {dynamicData.gapData.availableVendors.map((vendor) => (
