@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Step 4 UI</name>
+    <groupId>com.ca.originations.steps</groupId>
+    <artifactId>caps-step4-rehash-ui</artifactId>
+    <version>1.0.6-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <github-server>github.com</github-server>
+        <github-org>credit-acceptance</github-org>
+        <github-repo>caps-step4-rehash-ui</github-repo>
+        <nexus-server>nexus.creditacceptance.com</nexus-server>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.2</version>
+                <executions>
+                    <execution>
+                        <id>npm clean</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>clean</phase>
+                        <configuration>
+                            <executable>rm</executable>
+                            <arguments>
+                                <argument>-rf</argument>
+                                <argument>node_modules</argument>
+                                <argument>target/dist</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm build</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>build</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>ui jar</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <executable>jar</executable>
+                            <arguments>
+                                <argument>cvf</argument>
+                                <argument>target/${project.artifactId}-${project.version}.jar</argument>
+                                <argument>-C</argument>
+                                <argument>target/dist/</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <tag>HEAD</tag>
+        <url>https://${github-server}/${github-org}/${github-repo}.git</url>
+        <connection>scm:git:https://${github-server}/${github-org}/${github-repo}.git</connection>
+        <developerConnection>scm:git:https://${github-server}/${github-org}/${github-repo}.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>Internal Release Repository</name>
+            <uniqueVersion>true</uniqueVersion>
+            <url>https://${nexus-server}/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>Internal Snapshot Repository</name>
+            <url>https://${nexus-server}/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
